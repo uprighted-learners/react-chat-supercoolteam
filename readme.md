@@ -15,7 +15,7 @@ Clone the following repository to your projects folder, then `cd` into `server` 
 Your message document in your `messages` collection should resemble the following:
 
 ```json
-
+**these go in the models folder, check back to lesson review 32 models folder if needed, same for user and room schema jusst in there own file
 {
     "when": "2018-07-15T20:00:47.696Z",
     "user": "John",
