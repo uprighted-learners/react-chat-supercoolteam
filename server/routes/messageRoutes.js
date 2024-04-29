@@ -5,52 +5,19 @@ const router = express.Router();
 const Message = require("../models/messageModel");
 const auth = require("../middleware/auth"); 
 
+// gets a route for all messages
+router.get('/messageModels', messageControllers.getMessages)
 
-router.get('/messageModels', async (req, res) => {
-    try {
-        const messages = await Message.find();
-        res.send(messages);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-})
+// gets a route for a single message
+router.get('/messageModels/:id', messageControllers.getMessageById)
 
-router.get('/messageModels/:id', async (req, res) => {
-    try {
-        const message = await Message.findById(req.params.id);
-        res.send(message);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-})
+// gets a route for creating a new message
+router.post('/messageModels', auth, messageControllers.createMessage)
 
-router.post('/messageModels', async (req, res) => {
-    try {
-        const message = new Message(req.body);
-        const savedMessage = await message.save();
-        res.send(savedMessage);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-})
+// gets a route for editing a message
+router.put('/messageModels/:id', auth,  messageControllers.updateMessage)
 
-router.put('/messageModels/:id', async (req, res) => {
-    try {
-        const message = await Message.findByIdAndUpdate(req.params.id, req.body);
-        const updatedMessage = await message.save();
-        res.send(updatedMessage);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-})
-
-router.delete('/messageModels/:id', async (req, res) => {
-    try {
-        const message = await Message.findByIdAndDelete(req.params.id);
-        res.send(message);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-})
+// gets a route for deleting a message
+router.delete('/messageModels/:id', auth, messageControllers.deleteMessage)
 
 module.exports = router

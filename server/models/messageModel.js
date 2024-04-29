@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 
 
-
+//This is for our message schema 
 const messageSchema = new mongoose.Schema({
     user: {
         type: String,
@@ -22,5 +22,5 @@ const messageSchema = new mongoose.Schema({
     }
 })
 
-
+//exports the model
 module.exports = mongoose.model("Message", messageSchema);
