@@ -1,29 +1,30 @@
+import Message from '../models/messageModel.js'
 //This is for message endpoints
 
 //This is to get all messages
-exports.getMessages = async (req, res) => {
+export const getMessages = async (req, res) => {
   try {
     const messages = await Message.find();
     res.json(messages);
   } catch (err) {
     console.log(err);
-    re.status(404).json({ message: err });
+    res.status(404).json({ message: err });
   }
 };
 
 //This is to get a single message by id
-exports.getMessageById = async (req, res) => {
+export const getMessageById = async (req, res) => {
   try {
     const message = await Message.findById(req.params.id);
     res.json(message);
   } catch (err) {
     console.log(err);
-    re.status(404).json({ message: err });
+    res.status(404).json({ message: err });
   }
 };
 
 //This is to create a new message in the database
-exports.createMessage = async (req, res) => {
+export const createMessage = async (req, res) => {
   try {
     const message = new Message({
       user: req.body.user,
@@ -31,14 +32,16 @@ exports.createMessage = async (req, res) => {
       body: req.body.body,
       when: Date.now(),
     });
+    const savedMessage = await message.save();
+    res.status(201).json(savedMessage);
   } catch (err) {
     console.log(err);
-    re.status(404).json({ message: err });
+    res.status(404).json({ message: err });
   }
 };
 
 //This is to update a message in the database by id
-exports.updateMessage = async (req, res) => {
+export const updateMessage = async (req, res) => {
   try {
     const message = await Message.findById(req.params.id);
     if (message) {
@@ -53,12 +56,12 @@ exports.updateMessage = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    re.status(400).json({ message: err });
+    res.status(400).json({ message: err });
   }
 };
 
 //This is to delete a message from the database by id
-exports.deleteMessage = async (req, res) => {
+export const deleteMessage = async (req, res) => {
   try {
     const message = await Message.findByIdAndDelete(req.params.id);
     if (!message) {
@@ -68,6 +71,11 @@ exports.deleteMessage = async (req, res) => {
     res.json({ message: "Message deleted" });
   } catch (err) {
     console.log(err);
-    re.status(400).json({ message: err });
+    res.status(400).json({ message: err });
   }
 };
+
+
+
+
+

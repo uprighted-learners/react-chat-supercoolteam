@@ -4,10 +4,12 @@ import dotenv from "dotenv"
 
 //route endpoint imports
 import userRoutes from './routes/userRoutes.js'
+import messageRoutes from './routes/messageRoutes.js'
 
 const app = express();
 dotenv.config();
 
+//health test for server
 app.get('/health/test', (req, res) => {
     res.send('healthy server')
 });
@@ -15,10 +17,6 @@ app.get('/health/test', (req, res) => {
 const PORT = process.env.PORT || 6000;
 const MONGOURL = process.env.MONGO_URL;
 
-import messageRoutes from './routes/messageRoutes.js'
-
-//server middleware
-=======
 //connect to mongodb and server
 mongoose.connect(MONGOURL).then(() => {
     console.log('Mondgodb database is connected!')
@@ -31,13 +29,7 @@ mongoose.connect(MONGOURL).then(() => {
 app.use(express.json())
 
 
-//server
-app.listen(PORT, (req, res) => {
-    console.log(`Server is running on: ${PORT} `)
-});
-
-app.use(messageRoutes)
-=======
 //call endpoint routes
 app.use(userRoutes);
+app.use(messageRoutes);
 
