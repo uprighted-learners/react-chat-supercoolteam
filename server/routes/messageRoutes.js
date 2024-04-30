@@ -1,9 +1,12 @@
 //This is for message handler functions
+import express from 'express'
+import authenticateToken from "../middleware/auth.js";
+import { getMessages, getMessageById, createMessage, updateMessage, deleteMessage } from '../controllers/messageControllers.js';
 
-const express = require("express");
+const messageControllers = { getMessages, getMessageById, createMessage, updateMessage, deleteMessage }
 const router = express.Router();
-const Message = require("../models/messageModel");
-const auth = require("../middleware/auth"); 
+
+
 
 // gets a route for all messages
 router.get('/messageModels', messageControllers.getMessages)
@@ -12,12 +15,12 @@ router.get('/messageModels', messageControllers.getMessages)
 router.get('/messageModels/:id', messageControllers.getMessageById)
 
 // gets a route for creating a new message
-router.post('/messageModels', auth, messageControllers.createMessage)
+router.post('/messageModels', authenticateToken, messageControllers.createMessage)
 
 // gets a route for editing a message
-router.put('/messageModels/:id', auth,  messageControllers.updateMessage)
+router.put('/messageModels/:id', authenticateToken,  messageControllers.updateMessage)
 
 // gets a route for deleting a message
-router.delete('/messageModels/:id', auth, messageControllers.deleteMessage)
+router.delete('/messageModels/:id', authenticateToken, messageControllers.deleteMessage)
 
-module.exports = router
+export default router
