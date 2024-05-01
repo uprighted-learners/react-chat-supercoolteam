@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 //route endpoint imports
 import userRoutes from './routes/userRoutes.js'
 import messageRoutes from './routes/messageRoutes.js'
+import roomRoutes from './routes/roomRoutes.js'
 
 const app = express();
 dotenv.config();
@@ -32,4 +33,5 @@ app.use(express.json())
 //call endpoint routes
 app.use(userRoutes);
 app.use(messageRoutes);
+app.use(roomRoutes)
 
