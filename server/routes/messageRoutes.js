@@ -15,7 +15,7 @@ router.get('/messageModels', messageControllers.getMessages)
 router.get('/messageModels/:id', messageControllers.getMessageById)
 
 // gets a route for creating a new message
-router.post('/messageModels', authenticateToken, messageControllers.createMessage)
+router.post('/messageModels', messageControllers.createMessage)
 
 // gets a route for editing a message
 router.put('/messageModels/:id', authenticateToken,  messageControllers.updateMessage)
