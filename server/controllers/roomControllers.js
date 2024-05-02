@@ -5,10 +5,11 @@ export const createRoom = async (req, res) => {
     try {
         const { name, description, addedUsers } = req.body;
 
+        //check if information entered is valid for users
         if (!addedUsers || !Array.isArray(addedUsers) || addedUsers.length === 0) {
-            return res.status(400).json({ message: 'One or more users not found', addedUsers });
+            return res.status(400).json({ message: 'User information not valid', addedUsers });
         }
-        // Check if all addedUsers exist
+        // Check if all addedUsers exist in the database
         const usersExist = await User.find({ _id: { $in: addedUsers } });
         if (usersExist.length !== addedUsers.length) {
             return res.status(400).json({ message: 'One or more users not found' });
