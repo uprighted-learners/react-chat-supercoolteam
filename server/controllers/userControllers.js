@@ -48,7 +48,7 @@ export const loginUser = async (req, res) => {
         }
         
         // If credentials are correct, generate access token
-        const accessToken = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1hr' });
+        const accessToken = jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1hr' });
         res.status(200).json({ message: 'Login successful', token: accessToken });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
