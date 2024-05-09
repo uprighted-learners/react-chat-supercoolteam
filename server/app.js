@@ -1,6 +1,7 @@
 import express from "express"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
+import cors from "cors"
 
 //route endpoint imports
 import userRoutes from './routes/userRoutes.js'
@@ -28,6 +29,7 @@ mongoose.connect(MONGOURL).then(() => {
 
 //server middleware
 app.use(express.json())
+app.use(cors())
 
 
 //call endpoint routes
