@@ -6,7 +6,7 @@ export default function Auth() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
   //login user function
@@ -37,7 +37,7 @@ export default function Auth() {
       // Clear form after successful login
       setEmail('');
       setPassword('');
-      setisLoggedIn(true);
+      setIsLoggedIn(true);
     } catch (error) {
       console.error('Login error:', error.message);
     }
@@ -47,7 +47,7 @@ export default function Auth() {
   //logout user function
   const logoutUser = () => {
     localStorage.removeItem('token');
-    setisLoggedIn(false);
+    setIsLoggedIn(false);
     alert('Logout Successful');
   }
 
@@ -101,7 +101,7 @@ export default function Auth() {
 
   //toggles between login and create user forms
   const toggleForm = () => {
-    setisLoggedIn(!isLoggedIn);
+    setIsLoggedIn(!isLoggedIn);
   };
 
 
