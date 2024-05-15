@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
+
 export default function Auth() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+
 
   //login user function
   const loginUser = async () => {
@@ -21,21 +23,34 @@ export default function Auth() {
         }),
       });
 
+
       if (!response.ok) {
         throw new Error('Authentication failed');
       }
       alert('Login Successful');
       //this console is here to make sure the data is being fetched correctly (**remove in final product**)
       const data = await response.json();
+      localStorage.setItem('token', data.token);
       console.log(data);
+
 
       // Clear form after successful login
       setEmail('');
       setPassword('');
+      setisLoggedIn(true);
     } catch (error) {
       console.error('Login error:', error.message);
     }
   };
+
+
+  //logout user function
+  const logoutUser = () => {
+    localStorage.removeItem('token');
+    setisLoggedIn(false);
+    alert('Logout Successful');
+  }
+
 
   //create a new user function
   const createUser = async () => {
@@ -53,12 +68,14 @@ export default function Auth() {
         }),
       });
 
+
       if (!response.ok) {
         throw new Error('User creation failed');
       }
       alert('User Created Successfully');
       const data = await response.json();
       console.log(data);
+
 
       // Clear form after successful user creation
       setFirstName('');
@@ -70,26 +87,30 @@ export default function Auth() {
     }
   };
 
+
   //if the user is login in it calls the login function, if not it calls the create user function
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (isLogin) {
+    if (isLoggedIn) {
       loginUser();
     } else {
       createUser();
     }
   };
 
+
   //toggles between login and create user forms
   const toggleForm = () => {
-    setIsLogin(!isLogin);
+    setisLoggedIn(!isLoggedIn);
   };
+
 
   return (
     <div>
-      <h2>{isLogin ? 'Login' : 'Register'}</h2>
+      {isLoggedIn ? <button onClick={logoutUser}>Logout</button> : null}
+      <h2>{isLoggedIn ? 'Login' : 'Register'}</h2>
       <form onSubmit={handleSubmit}>
-        {!isLogin && (
+        {!isLoggedIn && (
           <>
             <label>
               First Name:
@@ -129,12 +150,12 @@ export default function Auth() {
             required
           />
         </label>
-        <button type="submit">{isLogin ? 'Login' : 'Register'}</button>
+        <button type="submit">{isLoggedIn ? 'Login' : 'Register'}</button>
       </form>
       <p>
-        {isLogin ? "Don't have an account? " : 'Already have an account? '}
+        {isLoggedIn ? "Don't have an account? " : 'Already have an account? '}
         <button type="button" onClick={toggleForm}>
-          {isLogin ? 'Register here' : 'Login here'}
+          {isLoggedIn ? 'Register here' : 'Login here'}
         </button>
       </p>
     </div>
