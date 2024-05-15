@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateMessage() {
     const [messages, setMessages] = useState([]);
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [content, setContent] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchMessages();
@@ -38,7 +38,7 @@ export default function CreateMessage() {
             setAuthor('');
             setContent('');
             // Redirect to home page after successful message creation
-            history.push('/');
+            navigate.push('/');
         } catch (error) {
             console.log(error);
         }
