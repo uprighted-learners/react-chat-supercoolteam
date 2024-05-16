@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CreateMessage() {
     const [messages, setMessages] = useState([]);
-    const [title, setTitle] = useState('');
-    const [author, setAuthor] = useState('');
-    const [content, setContent] = useState('');
+    const [user, setUser] = useState('');
+    const [room, setRoom] = useState('');
+    const [body, setBody] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,20 +25,20 @@ export default function CreateMessage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5500/api/messages', {
+            const response = await fetch('http://localhost:5500/messageModels', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ title, author, content }),
+                body: JSON.stringify({ user, room, body }),
             });
             const data = await response.json();
             setMessages([...messages, data]);
-            setTitle('');
-            setAuthor('');
-            setContent('');
+            setUser('');
+            setRoom('');
+            setBody('');
             // Redirect to home page after successful message creation
-            navigate.push('/');
+            navigate('/'); // Use navigate to go to the home page
         } catch (error) {
             console.log(error);
         }
@@ -49,21 +49,21 @@ export default function CreateMessage() {
             <h2>Welcome to the create message page</h2>
             <h3>Create a new message</h3>
             <form onSubmit={handleSubmit}>
-                <label>Title</label>
-                <input type='text' value={title} onChange={(e) => setTitle(e.target.value)} required />
-                <label>Author</label>
-                <input type='text' value={author} onChange={(e) => setAuthor(e.target.value)} required />
-                <label>Content</label>
-                <textarea value={content} onChange={(e) => setContent(e.target.value)} required> </textarea>
+                <label>User</label>
+                <input type='text' value={user} onChange={(e) => setUser(e.target.value)} required />
+                <label>Room</label>
+                <input type='text' value={room} onChange={(e) => setRoom(e.target.value)} required />
+                <label>Body</label>
+                <textarea value={body} onChange={(e) => setBody(e.target.value)} required> </textarea>
                 <button type='submit'>Submit</button>
             </form>
 
             <h3>All messages</h3>
-            {messages.map((message) => (
-                <div key={message.id}>
-                    <h4>{message.title}</h4>
-                    <p>Author: {message.author}</p>
-                    <p>{message.content}</p>
+            {messages.filter(message => message._id).map((message) => (
+                <div key={message._id}>
+                    <h4>{message.user}</h4>
+                    <p>Room: {message.room}</p>
+                    <p>{message.body}</p>
                 </div>
             ))}
         </div>
