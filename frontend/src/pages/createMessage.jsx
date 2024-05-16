@@ -14,18 +14,18 @@ export default function CreateMessage() {
 
     const fetchMessages = async () => {
         try {
-            const response = await fetch('http://localhost:6000/api/messages');
+            const response = await fetch(`http://localhost:5500/messageModels`);
             const data = await response.json();
             setMessages(data);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:6000/api/messages', {
+            const response = await fetch('http://localhost:5500/api/messages', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

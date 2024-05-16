@@ -1,5 +1,6 @@
 import User from '../models/userModel.js';
 import Room from '../models/roomModel.js';
+import Message from '../models/messageModel.js';
 
 export const createRoom = async (req, res) => {
     try {
@@ -30,9 +31,6 @@ export const createRoom = async (req, res) => {
 };
 
 
-
-
-
 //display all rooms
 export const displayAllRooms = async (req, res) => {
     try {
@@ -41,5 +39,17 @@ export const displayAllRooms = async (req, res) => {
         res.status(200).json({ rooms })
     } catch (error) {
         res.status(400).json({ message: error.message })
+    }
+}
+
+
+// Fetch all messages in a room by room ID
+export const getMessagesByRoomId = async (req, res) => {
+    try {
+        const roomId = req.params.id;
+        const messages = await Message.find({ room: roomId });
+        res.status(200).json({ messages });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
 }
