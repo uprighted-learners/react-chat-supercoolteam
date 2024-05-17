@@ -4,6 +4,7 @@ import Auth from "./pages/Auth";
 import Home from "./pages/Home";
 import Navigation from "./components/Navigation";
 import RoomPage from "./pages/RoomPage";
+import createMessageStyling from "./Styling/createMessage.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 export default function App() {

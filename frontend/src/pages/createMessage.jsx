@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../Styling/createMessage.css';
 
 export default function CreateMessage() {
     const [messages, setMessages] = useState([]);
@@ -75,9 +76,6 @@ export default function CreateMessage() {
     };
     
     
-    
-    
-
     const handleDelete = async (id, user) => {
         if (user === loggedInUser) {
             try {
@@ -99,9 +97,10 @@ export default function CreateMessage() {
     };
 
     return (
-        <div>
+        <div className="container">
             <h2>Welcome to the create message page</h2>
             <h3>Create a new message</h3>
+      
             {isLoggedIn && (
                 <form onSubmit={handleSubmit}>
                     <label>User</label>
@@ -113,7 +112,6 @@ export default function CreateMessage() {
                     <button type='submit'>Submit</button>
                 </form>
             )}
-
             <h3>All messages</h3>
             {messages.filter(message => message._id).map((message) => (
                 <div key={message._id}>
