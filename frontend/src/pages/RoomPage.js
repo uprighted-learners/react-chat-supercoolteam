@@ -46,12 +46,15 @@ export default function RoomPage() {
       <h2>Room Details</h2>
       <p>Room ID: {id}</p>
       <p>Room Name: {room.name}</p>
-      <h3>Messages in this Room:</h3>
-      <ul>
-        {messages.map((message, index) => (
-          <li key={index}>{message.body}</li>
-        ))}
-      </ul>
+      <h3>Messages in this Room:</h3> 
+      {messages.filter(message => message._id).map((message) => (
+        <div key={message._id}>
+          <h4>
+          {message.user} Wrote:
+          </h4>
+          <p>{message.body}</p>
+        </div>
+      ))}
     </div>
   );
 }

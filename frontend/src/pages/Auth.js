@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 export default function Auth() {
   const [firstName, setFirstName] = useState('');
@@ -7,6 +7,8 @@ export default function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  
 
 
   //login user function
@@ -28,11 +30,13 @@ export default function Auth() {
         throw new Error('Authentication failed');
       }
       alert('Login Successful');
-      //this console is here to make sure the data is being fetched correctly (**remove in final product**)
       const data = await response.json();
       localStorage.setItem('token', data.token);
+      localStorage.setItem('user', data.userId);
       console.log(data);
 
+      navigate('/');
+      window.location.reload();
 
       // Clear form after successful login
       setEmail('');
@@ -49,6 +53,8 @@ export default function Auth() {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     alert('Logout Successful');
+    navigate('/');
+    window.location.reload();
   }
 
 
@@ -75,7 +81,6 @@ export default function Auth() {
       alert('User Created Successfully');
       const data = await response.json();
       console.log(data);
-
 
       // Clear form after successful user creation
       setFirstName('');
@@ -107,7 +112,7 @@ export default function Auth() {
 
   return (
     <div>
-      {isLoggedIn ? <button onClick={logoutUser}>Logout</button> : null}
+      {isLoggedIn && <button onClick={logoutUser}>Logout</button>}
       <h2>{isLoggedIn ? 'Login' : 'Register'}</h2>
       <form onSubmit={handleSubmit}>
         {!isLoggedIn && (
