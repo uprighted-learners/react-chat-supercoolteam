@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../Styling/createMessage.css';
 
 export default function CreateMessage() {
     const [messages, setMessages] = useState([]);
@@ -45,7 +46,7 @@ export default function CreateMessage() {
     };
 
     return (
-        <div>
+        <div className="container">
             <h2>Welcome to the create message page</h2>
             <h3>Create a new message</h3>
             <form onSubmit={handleSubmit}>
@@ -54,18 +55,20 @@ export default function CreateMessage() {
                 <label>Room</label>
                 <input type='text' value={room} onChange={(e) => setRoom(e.target.value)} required />
                 <label>Body</label>
-                <textarea value={body} onChange={(e) => setBody(e.target.value)} required> </textarea>
+                <textarea value={body} onChange={(e) => setBody(e.target.value)} required />
                 <button type='submit'>Submit</button>
             </form>
 
             <h3>All messages</h3>
-            {messages.filter(message => message._id).map((message) => (
-                <div key={message._id}>
-                    <h4>{message.user}</h4>
-                    <p>Room: {message.room}</p>
-                    <p>{message.body}</p>
-                </div>
-            ))}
+            <div className="message-list">
+                {messages.filter(message => message._id).map((message) => (
+                    <div key={message._id} className="message">
+                        <h4>{message.user}</h4>
+                        <p>Room: {message.room}</p>
+                        <p>{message.body}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
