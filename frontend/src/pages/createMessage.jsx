@@ -4,7 +4,6 @@ import '../Styling/createMessage.css';
 
 export default function CreateMessage() {
     const [messages, setMessages] = useState([]);
-    const [user, setUser] = useState('');
     const [room, setRoom] = useState('');
     const [body, setBody] = useState('');
     const navigate = useNavigate();
@@ -14,7 +13,7 @@ export default function CreateMessage() {
     useEffect(() => {
         fetchMessages();
     }, []);
-
+    //fetch messages function
     const fetchMessages = async () => {
         try {
             const response = await fetch(`http://localhost:5500/messageModels`);
@@ -24,7 +23,7 @@ export default function CreateMessage() {
             console.error(error);
         }
     };
-
+    //handle submit function for creating a new message
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -34,11 +33,10 @@ export default function CreateMessage() {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
-                body: JSON.stringify({ user: localStorage.getItem('user'), room, body }), // Update user state
+                body: JSON.stringify({ user: loggedInUser, room, body }), // Update user state
             });
             const data = await response.json();
             setMessages([...messages, data]);
-            setUser('');
             setRoom('');
             setBody('');
             alert('Message created successfully!');
@@ -49,7 +47,7 @@ export default function CreateMessage() {
         }
     };
 
-
+    //handle edit function
     const handleEdit = async (id, user, room, currentBody) => {
         const newBody = prompt('Enter the new message body:', currentBody); // Prompt user for new message body
         if (newBody !== null) { // If user cancels, newBody will be null
@@ -75,7 +73,7 @@ export default function CreateMessage() {
         }
     };
     
-    
+    //handle delete function
     const handleDelete = async (id, user) => {
         if (user === loggedInUser) {
             try {
@@ -95,16 +93,13 @@ export default function CreateMessage() {
             alert('You are not authorized to delete this message.');
         }
     };
-
     return (
         <div className="container">
             <h2>Welcome to the create message page</h2>
             <h3>Create a new message</h3>
-      
+            {/* Form for creating a new message */}
             {isLoggedIn && (
                 <form onSubmit={handleSubmit}>
-                    <label>User</label>
-                    <input type='text' value={user} onChange={(e) => setUser(e.target.value)} required />
                     <label>Room</label>
                     <input type='text' value={room} onChange={(e) => setRoom(e.target.value)} required />
                     <label>Body</label>
@@ -112,6 +107,8 @@ export default function CreateMessage() {
                     <button type='submit'>Submit</button>
                 </form>
             )}
+
+            {/* Display all messages by user and room id */}
             <h3>All messages</h3>
             {messages.filter(message => message._id).map((message) => (
                 <div key={message._id}>
@@ -122,6 +119,7 @@ export default function CreateMessage() {
                     {isLoggedIn && (
                         <>
                             {message.user === loggedInUser && (
+                                /* Edit and delete buttons that call the functions above */
                                 <>
                                     <button onClick={() => handleEdit(message._id, message.user, message.room, message.body)}>Edit</button>
                                     <button onClick={() => handleDelete(message._id, message.user)}>Delete</button>

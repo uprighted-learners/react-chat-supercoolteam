@@ -50,9 +50,9 @@ export default function Auth() {
 
   //logout user function
   const logoutUser = () => {
+    alert('Logout Successful');
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    alert('Logout Successful');
     navigate('/');
     window.location.reload();
   }
@@ -109,60 +109,71 @@ export default function Auth() {
     setIsLoggedIn(!isLoggedIn);
   };
 
+// This function is a React component that renders a login or registration form based on the 'isLoggedIn' state.
+return (
+  <div>
+    {/* If the user is logged in, a logout button is displayed */}
+    {isLoggedIn && <button onClick={logoutUser}>Logout</button>}
 
-  return (
-    <div>
-      {isLoggedIn && <button onClick={logoutUser}>Logout</button>}
-      <h2>{isLoggedIn ? 'Login' : 'Register'}</h2>
-      <form onSubmit={handleSubmit}>
-        {!isLoggedIn && (
-          <>
-            <label>
-              First Name:
-              <input
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-              />
-            </label>
-            <label>
-              Last Name:
-              <input
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-              />
-            </label>
-          </>
-        )}
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">{isLoggedIn ? 'Login' : 'Register'}</button>
-      </form>
-      <p>
-        {isLoggedIn ? "Don't have an account? " : 'Already have an account? '}
-        <button type="button" onClick={toggleForm}>
-          {isLoggedIn ? 'Register here' : 'Login here'}
-        </button>
-      </p>
-    </div>
-  );
+    {/* The title of the form changes based on the 'isLoggedIn' state */}
+    <h2>{isLoggedIn ? 'Login' : 'Register'}</h2>
+
+    <form onSubmit={handleSubmit}>
+      {/* If the user is not logged in, the first and last name fields are displayed */}
+      {!isLoggedIn && (
+        <>
+          <label>
+            First Name:
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Last Name:
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </label>
+        </>
+      )}
+
+      {/* if the user is logged in, the email and password fields are displayed */}
+      <label>
+        Email:
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Password:
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </label>
+
+      {/* The submit button's text changes based on the 'isLoggedIn' state */}
+      <button type="submit">{isLoggedIn ? 'Login' : 'Register'}</button>
+    </form>
+
+    {/* toggle the 'isLoggedIn' state */}
+    <p>
+      {isLoggedIn ? "Don't have an account? " : 'Already have an account? '}
+      <button type="button" onClick={toggleForm}>
+        {isLoggedIn ? 'Register here' : 'Login here'}
+      </button>
+    </p>
+  </div>
+);
 }
