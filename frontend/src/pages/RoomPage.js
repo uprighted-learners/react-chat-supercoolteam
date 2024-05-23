@@ -41,6 +41,7 @@ export default function RoomPage() {
 
   }, [id]); // Fetch room and messages whenever the room ID changes
 
+  // Display the room details and messages
   return (
     <div>
       <h2>Room Details</h2>

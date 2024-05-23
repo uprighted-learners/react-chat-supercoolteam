@@ -25,6 +25,7 @@ export default function Home() {
     }
   };
 
+  //display all rooms available
   return (
     <div>
       <h2>Available Rooms</h2>
